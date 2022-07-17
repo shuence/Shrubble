@@ -1,91 +1,77 @@
-{{define "lobby-create-page"}}
 <!DOCTYPE html>
 <html lang="{{.Locale}}">
+<!--{{define "lobby-create-page"}}-->
 
 <head>
-    <title>Scribble.rs</title>
+    <title>Shrubble.rs ✨</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    {{template "non-static-css-decl" .}}
-    <link rel="stylesheet" type="text/css" href="{{.RootPath}}/resources/base.css" />
-    <link rel="stylesheet" type="text/css" href="{{.RootPath}}/resources/lobby_create.css" />
-    {{template "favicon-decl" .}}
+    <link rel="stylesheet" href="/frontend/resources/base.css">
+    <link rel="stylesheet" href="/frontend/resources/lobby_create.css">
+    <link rel="icon" type="img/png" href="/frontend/resources/favicon_16.png">
 </head>
 
 <body>
     <div class="content-wrapper">
-        <noscript><span class="noscript">{{.Translation.Get "requires-js"}}</span></noscript>
+        <noscript><span class="noscript"></span></noscript>
 
-        <img id="logo" src="{{.RootPath}}/resources/logo.svg">
+        <img id="logo" src="/frontend/resources/logo.svg">
+
 
         <div class="tab-header">
             <label for="create-lobby-tab-button">
                 <input id="create-lobby-tab-button" class="custom-check-or-radio tab-button" type="radio"
                     onclick="openTab('create-lobby')" name="tab" checked>
-                <div class="tab-label">{{.Translation.Get "create-lobby"}}</div>
+                <div class="tab-label">Create Room</div>
             </label>
             <label for="join-lobby-tab-button">
                 <input id="join-lobby-tab-button" class="custom-check-or-radio tab-button" type="radio"
                     onclick="openTab('join-lobby')" name="tab">
-                <div class="tab-label">{{.Translation.Get "join-lobby"}}</div>
+                <div class="tab-label">Join Room</div>
             </label>
         </div>
 
         <div id="create-lobby" class="tab-content">
             <div class="center-container">
                 <div class="content-container">
-                    {{if .Errors}}
-                    <div class="error-list">
-                        {{.Translation.Get "input-contains-invalid-data"}}
-                        <ul>
-                            {{range .Errors}}
-                            <li>{{.}}</li>
-                            {{end}}
-                        </ul>
-                        <br />
-                        {{.Translation.Get "please-fix-invalid-input"}}
-                    </div>
-
-                    {{end}}
-                    <form id="lobby-create" class="input-container" action="{{.RootPath}}/ssrCreateLobby" method="POST">
-                        <b>{{.Translation.Get "word-language"}}</b>
+                
+                    <form id="lobby-create" class="input-container" action="/frontend/ssrCreateLobby" method="POST">
+                        <b> Word-language </b>
                         <select class="input-item" name="language" placeholder="Choose your language">
-                            {{$language := .Language}}
-                            {{range $k, $v := .Languages}}
-                            <option value="{{$k}}" {{if eq $k $language}}selected="selected" {{end}}>{{$v}}</option>
-                            {{end}}
+                            <option value="en">English</option>
+                        
                         </select>
-                        <b>{{.Translation.Get "drawing-time-setting"}}</b>
+                        <b>Drawing-Time-Setting</b>
                         <input class="input-item" type="number" name="drawing_time" min="{{.MinDrawingTime}}"
                             max="{{.MaxDrawingTime}}" value="{{.DrawingTime}}" />
-                        <b>{{.Translation.Get "rounds-setting"}}</b>
+                        <b>Rounds-Setting</b>
                         <input class="input-item" type="number" name="rounds" min="{{.MinRounds}}" max="{{.MaxRounds}}"
                             value="{{.Rounds}}" />
-                        <b>{{.Translation.Get "max-players-setting"}}</b>
+                        <b>Max-Players-Setting</b>
                         <input class="input-item" type="number" name="max_players" min="{{.MinMaxPlayers}}"
                             max="{{.MaxMaxPlayers}}" value="{{.MaxPlayers}}" />
-                        <b>{{.Translation.Get "public-lobby-setting"}}</b>
+                        <b>Public-lobby-Setting</b>
                         <input class="input-item" type="checkbox" name="public" value="true"
-                            {{if eq .Public "true"}}checked{{end}} />
-                        <b>{{.Translation.Get "enable-votekick-setting"}}</b>
+                             />
+                        <b>Enable-Votekick-Setting</b>
                         <input class="input-item" type="checkbox" name="enable_votekick" value="true"
-                            {{if eq .EnableVotekick "true"}}checked{{end}} />
-                        <b>{{.Translation.Get "players-per-ip-limit-setting"}}</b>
+                             />
+                        <b>Players-per-IP-limit-setting</b>
                         <input class="input-item" type="number" name="clients_per_ip_limit"
                             min="{{.MinClientsPerIPLimit}}" max="{{.MaxClientsPerIPLimit}}"
                             value="{{.ClientsPerIPLimit}}" />
-                        <b>{{.Translation.Get "custom-words-chance-setting"}}</b>
+                        <b>Custom-Words-Chance-setting</b>
                         <div class="input-item percent-slider">
                             <span>0%</span>
                             <input type="range" name="custom_words_chance" min="1" max="100"
                                 value="{{.CustomWordsChance}}">
                             <span>100%</span>
                         </div>
-                        <b>{{.Translation.Get "custom-words"}}</b>
+                        <b>Custom-Word</b>
                         <textarea class="input-item" name="custom_words"
-                            placeholder="{{.Translation.Get "custom-words-info"}}">{{.CustomWords}}</textarea>
+                            placeholder="custom-words-info"></textarea>
                         <button type="submit" class="create-button" form="lobby-create">
-                            {{.Translation.Get "create-lobby"}}
+                            Create Room
                         </button>
                     </form>
                 </div>
@@ -95,16 +81,16 @@
         <div id="join-lobby" class="tab-content">
             <div class="join-lobby-data">
                 <div class="table-wrapper-wrapper">
-                    <button id="refresh-button" onclick="loadLobbyTable()">{{.Translation.Get "refresh"}}</button>
+                    <button id="refresh-button" onclick="loadLobbyTable()">Refresh</button>
                     <div class="table-wrapper">
                         <table id="lobby-table">
                             <thead>
                                 <tr>
-                                    <th>{{.Translation.Get "word-language"}}</th>
-                                    <th>{{.Translation.Get "rounds-setting"}}</th>
-                                    <th>{{.Translation.Get "players"}}</th>
-                                    <th>{{.Translation.Get "drawing-time-setting"}}</th>
-                                    <th>{{.Translation.Get "custom-words"}}</th>
+                                    <th>word-language</th>
+                                    <th>rounds-setting</th>
+                                    <th>players</th>
+                                    <th>drawing-time-setting</th>
+                                    <th>custom-words</th>
                                 </tr>
                             </thead>
                             <tbody id="lobby-table-body">
@@ -113,26 +99,25 @@
                     </div>
                 </div>
                 <div class="lobby-details">
-                    <span class="lobby-detail">{{.Translation.Get "word-language"}}:</span>
+                    <span class="lobby-detail">Word-language</span>
                     <span id="wordpack-detail"></span>
-                    <span class="lobby-detail">{{.Translation.Get "rounds-setting"}}:</span>
+                    <span class="lobby-detail">rounds-setting</span>
                     <span id="rounds-detail"></span>
-                    <span class="lobby-detail">{{.Translation.Get "players"}}:</span>
+                    <span class="lobby-detail">playersRoom</span>
                     <span id="players-detail"></span>
-                    <span class="lobby-detail">{{.Translation.Get "drawing-time-setting"}}:</span>
+                    <span class="lobby-detail">drawing-time-setting</span>
                     <span id="drawing-time-detail"></span>
-                    <span class="lobby-detail">{{.Translation.Get "custom-words"}}:</span>
+                    <span class="lobby-detail">custom-wordsRoom</span>
                     <span id="custom-words-detail"></span>
-                    <span class="lobby-detail">{{.Translation.Get "enable-votekick-setting"}}:</span>
+                    <span class="lobby-detail">enable-votekick-setting</span>
                     <span id="votekicking-detail"></span>
-                    <span class="lobby-detail">{{.Translation.Get "players-per-ip-limit-setting"}}:</span>
+                    <span class="lobby-detail">players-per-ip-limit-setting</span>
                     <span id="max-clients-ip-detail"></span>
-                    <button id="join-button" onclick="onJoin()" disabled>{{.Translation.Get "join-lobby"}}</button>
+                    <button id="join-button" onclick="onJoin()" disabled>join-room</button>
                 </div>
             </div>
         </div>
 
-        {{template "footer" .}}
     </div>
 
     <script type="text/javascript">
@@ -185,7 +170,7 @@
                         const drawingTimeCell = document.createElement("td");
                         drawingTimeCell.innerText = lobby.drawingTime.toString();
                         const customWordsCell = document.createElement("td");
-                        customWordsCell.innerText = lobby.customWords ? '{{.Translation.Get "yes"}}' : '{{.Translation.Get "no"}}';
+                        customWordsCell.innerText = lobby.customWords ? 'yes"}}' : 'no"}}';
 
                         const newRow = document.createElement("tr");
                         newRow.appendChild(wordpackCell);
@@ -224,8 +209,8 @@
                 roundsDetail.innerText = lobby.round + "/" + lobby.rounds;
                 playersDetail.innerText = lobby.playerCount + "/" + lobby.maxPlayers;
                 drawingTimeDetail.innerText = lobby.drawingTime.toString();
-                customWordsDetail.innerText = lobby.customWords ? '{{.Translation.Get "yes"}}' : '{{.Translation.Get "no"}}';
-                votekickingDetail.innerText = lobby.votekick ? '{{.Translation.Get "yes"}}' : '{{.Translation.Get "no"}}';
+                customWordsDetail.innerText = lobby.customWords ? 'yes"}}' : 'no"}}';
+                votekickingDetail.innerText = lobby.votekick ? 'yes"}}' : 'no"}}';
                 maxClientsIPDetail.innerText = lobby.maxClientsPerIp;
                 joinButton.disabled = false;
             }

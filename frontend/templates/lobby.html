@@ -1,25 +1,26 @@
-{{define "lobby-page"}}
 <!DOCTYPE html>
 <html lang="{{.Locale}}">
+<!--{{define "lobby-page"}}-->
 
 <head>
-    <title>Scribble.rs - Game</title>
+    <title>Shrubble.rs ✨</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=0.75 maximum-scale=0.75, user-scalable=0">
     {{template "non-static-css-decl" .}}
     <link rel="stylesheet" type="text/css" href="{{.RootPath}}/resources/base.css" />
     <link rel="stylesheet" type="text/css" href="{{.RootPath}}/resources/lobby.css" />
+    <link rel="stylesheet" href="/frontend/resources/base.css">
+    <link rel="stylesheet" href="/frontend/resources/lobby.css">
     {{template "favicon-decl" .}}
 </head>
 
 <body>
     <div class="content-wrapper">
-        <noscript><span class="noscript">{{.Translation.Get "requires-js"}}</span></noscript>
+        <noscript><span class="noscript"></span></noscript>
 
         <div id="lobby">
             <div id="lobby-header">
                 <div id="round-container">
-                    <span>{{.Translation.Get "round"}}&nbsp;</span>
                     <span id="rounds"></span>
                     <span id="max-rounds"></span>
                 </div>
@@ -29,44 +30,41 @@
                         <!-- this button is basically behaving like a checkbox, but in order to
                     have a uniform look with the other buttons in the header, we are not using
                     a checkbox anymore. -->
-                        <button onclick="toggleSound()" class="dialog-button header-button"
-                            alt="{{.Translation.Get "toggle-soundeffects"}}"
-                            title="{{.Translation.Get "toggle-soundeffects"}}">
+                        <button onclick="toggleSound()" class="dialog-button header-button">
                             <img id="sound-toggle-label" class="header-button-image" />
                         </button>
-                        <button onclick="showNameChangeDialog()" class="dialog-button header-button"
-                            alt="{{.Translation.Get "change-your-name"}}"
-                            title="{{.Translation.Get "change-your-name"}}">
-                            <img src="{{.RootPath}}/resources/user.svg" class="header-button-image" />
+                        <button onclick="showNameChangeDialog()" class="dialog-button header-button">
+                          <!--  <img src="{{.RootPath}}/resources/user.svg" class="header-button-image" /> -->
+                          <img src="/frontend/resources/user.svg" class="header-button-image">
                         </button>
-                        <button onclick="toggleFullscreen()" class="dialog-button header-button"
-                            alt="{{.Translation.Get "toggle-fullscreen"}}"
-                            title="{{.Translation.Get "toggle-fullscreen"}}">
-                            <img src="{{.RootPath}}/resources/fullscreen.svg" class="header-button-image" />
+                        <button onclick="toggleFullscreen()" class="dialog-button header-button">
+                          <!-- <img src="{{.RootPath}}/resources/fullscreen.svg" class="header-button-image" />-->
+                            <img src="/frontend/resources/fullscreen.svg" class="header-button-image" >
                         </button>
                     </div>
                     <div id="word-container"></div>
                     <div>
                         <button id="help-button" onclick="showHelpDialog()" class="dialog-button header-button"
-                            alt="{{.Translation.Get "show-help"}}" title="{{.Translation.Get "show-help"}}">
-                            <img src="{{.RootPath}}/resources/help.svg" class="header-button-image" />
+                            >
+                           <!-- <img src="{{.RootPath}}/resources/help.svg" class="header-button-image" /> -->
+                            <img src="/frontend/resources/help.svg" class="header-button-image" >
                         </button>
                         <button id="kick-button" style="display: none;" onclick="showKickDialog()"
-                            class="dialog-button header-button" alt="{{.Translation.Get "votekick-a-player"}}"
-                            title="{{.Translation.Get "votekick-a-player"}}">
-                            <img src="{{.RootPath}}/resources/kick.png" class="header-button-image" />
+                            class="dialog-button header-button">
+                          <!-- <img src="{{.RootPath}}/resources/kick.png" class="header-button-image" /> -->
+                            <img src="/frontend/resources/kick.png" class="header-button-image" >
                         </button>
                         <button id="lobby-settings-button" style="display: none;" onclick="showLobbySettingsDialog()"
                             class="dialog-button header-button"
-                            alt="{{.Translation.Get "change-lobby-settings-tooltip"}}"
-                            title="{{.Translation.Get "change-lobby-settings-tooltip"}}">
-                            <img src="{{.RootPath}}/resources/settings.svg" class="header-button-image" />
+                           >
+                          <!---  <img src="{{.RootPath}}/resources/settings.svg" class="header-button-image" /> -->
+                            <img src="/frontend/resources/settings.svg" class="header-button-image" >
                         </button>
                     </div>
                 </div>
 
                 <div id="time-left">
-                    <img src=" {{.RootPath}}/resources/clock.svg" class="header-button-image" />
+                  <!--- <img src=" {{.RootPath}}/resources/clock.svg" class="header-button-image" /> -->
                     <div id="time-left-value">∞</div>
                 </div>
             </div>
